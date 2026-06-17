@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <title>
+        Currency Converter
+    </title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial;
+        }
+
+        body {
+
+            height: 100vh;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            background:
+                url("ggggaa.png");
+
+            background-size: cover;
+
+            background-position: center;
+
+        }
+
+        .card {
+
+            width: 350px;
+
+            padding: 25px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(greenyellow);
+
+            backdrop-filter:
+                blur(50px);
+
+            text-align: center;
+
+            color: white;
+
+        }
+
+        input {
+
+            width: 100%;
+
+            padding: 10px;
+
+            margin: 20px 0;
+
+            border: none;
+
+            border-radius: 10px;
+
+        }
+
+        .box {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+        img {
+
+            width: 70px;
+
+        }
+
+        select {
+
+            padding: 10px;
+
+        }
+
+        button {
+
+            margin-top: 20px;
+
+            padding: 12px;
+
+            width: 100%;
+
+            border: none;
+
+            border-radius: 10px;
+
+        }
+
+        .result {
+
+            width: 200px;
+
+            height: 200px;
+
+            background: greenyellow;
+
+            color: black;
+
+            margin: 20px auto;
+
+            border-radius: 20px;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            font-size: 28px;
+
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="card">
+
+        <h1>
+            💱 Converter Currency India
+        </h1>
+
+        <input id="amount" type="number" value="100">
+
+        <div class="box">
+
+            <div>
+
+                <img id="fromFlag" src="https://flagcdn.com/w80/us.png">
+
+                <br>
+
+                <select id="from">
+
+                    <option>
+                        USD
+                    </option>
+
+                    <option>
+                        INR
+                    </option>
+
+                    <option>
+                        EUR
+                    </option>
+
+                    <option>
+                        GBP
+                    </option>
+
+                    <option>
+                        puk
+                    </option>
+                    <option>
+                        kd
+                    </option>
+                    <option>
+                        uk
+                    </option>
+
+                </select>
+
+            </div>
+
+            ⇄
+
+            <div>
+
+                <img id="toFlag" src="https://flagcdn.com/w80/in.png">
+
+                <br>
+
+                <select id="to">
+
+                    <option>
+                        INR
+                    </option>
+
+                    <option>
+                        USD
+                    </option>
+
+                    <option>
+                        EUR
+                    </option>
+
+                    <option>
+                        GBP
+                    </option>
+
+                    <option>
+                        puk
+                    </option>
+                    <option>
+                        kd
+                    </option>
+                    <option>
+                        uk
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <button onclick="convert()">
+
+            Convert
+
+        </button>
+
+        <div class="result" id="result">
+
+            ₹8200
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const country = {
+
+            USD: "us",
+            INR: "in",
+            EUR: "fr",
+            GBP: "gb",
+            JPY: "jp",
+            CNY: "cn",
+            AUD: "au",
+            CAD: "ca",
+            SAR: "sa",
+            AED: "ae",
+            OMR: "om",
+            QAR: "qa",
+            KWD: "kw",
+            PKR: "pk",
+            BDT: "bd",
+            NPR: "np",
+            LKR: "lk",
+            RUB: "ru",
+            TRY: "tr",
+            CHF: "ch",
+            SEK: "se",
+            NOK: "no",
+            DKK: "dk",
+            BRL: "br",
+            MXN: "mx",
+            ZAR: "za",
+            KRW: "kr",
+            SGD: "sg"
+
+        };
+
+        from.innerHTML = "";
+
+        to.innerHTML = "";
+
+        for (let c in country) {
+
+            from.innerHTML +=
+                `<option>${c}</option>`;
+
+            to.innerHTML +=
+                `<option>${c}</option>`;
+
+        }
+
+        from.value = "USD";
+
+        to.value = "INR";
+
+        function update() {
+
+            fromFlag.src =
+
+                `https://flagcdn.com/w80/${country[from.value]}.png`;
+
+            toFlag.src =
+
+                `https://flagcdn.com/w80/${country[to.value]}.png`;
+
+        }
+
+        from.onchange = update;
+
+        to.onchange = update;
+
+        async function convert() {
+
+            let a =
+
+                amount.value;
+
+            let f =
+
+                from.value
+                    .toLowerCase();
+
+            let t =
+
+                to.value
+                    .toLowerCase();
+
+            let res =
+
+                await fetch(
+
+                    `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/${f}.json`
+
+                );
+
+            let data =
+
+                await res.json();
+
+            let total =
+
+                a *
+                data[f][t];
+
+            result.innerHTML =
+
+                total
+                    .toFixed(2);
+
+        }
+
+        convert();
+
+    </script>
+
+</body>
+
+</html>
